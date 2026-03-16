@@ -1,0 +1,56 @@
+/**app.wxss**/
+page {
+  /* 定义 CSS 全局变量，便于在各页面统一调用及深浅色模式切换 */
+  --primary-color: #FF5722;      /* 主题色：番茄红 */
+  --primary-light: #FF8A65;      /* 较浅的主题色 */
+  --background-color: #f6f6f6;   /* 页面背景色 */
+  --text-main: #333333;          /* 主文本颜色 */
+  --text-secondary: #888888;     /* 次要文本颜色 */
+  --card-bg: #ffffff;            /* 卡片/模块背景色 */
+  --border-color: #eeeeee;       /* 边框颜色 */
+
+  background-color: var(--background-color);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 适配原生深色模式的 CSS 变量覆盖 */
+@media (prefers-color-scheme: dark) {
+  page {
+    --background-color: #000000;
+    --text-main: #e5e5e5;
+    --text-secondary: #888888;
+    --card-bg: #1c1c1e;
+    --border-color: #333333;
+  }
+}
+
+/* 全局容器样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 30rpx;
+}
+
+/* 通用布局基础样式 (原子类) */
+.flex-row { display: flex; flex-direction: row; }
+.flex-col { display: flex; flex-direction: column; }
+.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.w-100 { width: 100%; }
+.mt-20 { margin-top: 20rpx; }
+.mb-20 { margin-bottom: 20rpx; }
+.card {
+  background-color: var(--card-bg);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.05);
+}

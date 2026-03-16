@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/targets/targets",
+    "pages/group/group",
+    "pages/groupDetail/groupDetail",
+    "pages/record/record",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "@bgTxtStyle",
+    "navigationBarBackgroundColor": "@navBgColor",
+    "navigationBarTitleText": "聚力专注",
+    "navigationBarTextStyle": "@navTxtStyle"
+  },
+  "darkmode": true,
+  "themeLocation": "theme.json",
+  "tabBar": {
+    "color": "@tabTxtColor",
+    "selectedColor": "@tabSelectedColor",
+    "backgroundColor": "@tabBgColor",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "番茄钟",
+        "iconPath": "assets/icons/timer.png",
+        "selectedIconPath": "assets/icons/timer-active.png"
+      },
+      {
+        "pagePath": "pages/targets/targets",
+        "text": "目标",
+        "iconPath": "assets/icons/goals.png",
+        "selectedIconPath": "assets/icons/goals-active.png"
+      },
+      {
+        "pagePath": "pages/group/group",
+        "text": "小组",
+        "iconPath": "assets/icons/group.png",
+        "selectedIconPath": "assets/icons/group-active.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "数据",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

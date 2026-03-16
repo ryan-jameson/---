@@ -1,0 +1,54 @@
+<!--components/pomodoro/pomodoro.wxml-->
+<view class="pomodoro-box card flex-col align-center">
+  <!-- 时钟展示区 -->
+  <view class="clock-circle {{status}}">
+    <text class="time-text">{{timeDisplay}}</text>
+    <text class="status-badge" wx:if="{{status === 'idle'}}">准备专注</text>
+    <text class="status-badge" wx:elif="{{status === 'focusing'}}">专注中</text>
+    <text class="status-badge" wx:elif="{{status === 'paused'}}">已暂停</text>
+    <text class="status-badge" wx:elif="{{status === 'resting'}}">休息中</text>
+  </view>
+
+  <!-- 上下文信息区 (专注前可编辑) -->
+  <view class="context-box w-100 mt-20" wx:if="{{status === 'idle' || status === 'paused' || status === 'focusing'}}">
+    <!-- 目标选择 -->
+    <picker mode="selector" range="{{targets}}" range-key="title" bindchange="onTargetChange" disabled="{{status === 'focusing'}}">
+      <view class="picker-item flex-row justify-between align-center">
+        <text class="label">绑定目标</text>
+        <text class="value {{selectedTargetIndex == -1 ? 'empty' : ''}}">
+          {{selectedTargetIndex >= 0 ? targets[selectedTargetIndex].title : '未选择 >'}}
+        </text>
+      </view>
+    </picker>
+    
+    <!-- 内容输入 -->
+    <view class="input-item flex-row align-center mt-20">
+      <text class="label">专注内容</text>
+      <input 
+        class="content-input" 
+        placeholder="本次专注做什么？(可选)" 
+        value="{{focusContent}}"
+        bindinput="onContentInput"
+        disabled="{{status === 'focusing'}}"
+      />
+    </view>
+  </view>
+
+  <!-- 操作按钮区 -->
+  <view class="controls flex-row justify-center w-100 mt-20">
+    <!-- 空闲状态 -->
+    <button class="btn btn-primary" wx:if="{{status === 'idle'}}" bindtap="startFocus">开始专注</button>
+    
+    <!-- 专注中 -->
+    <button class="btn btn-warn" wx:if="{{status === 'focusing'}}" bindtap="pauseTimer">暂停</button>
+    
+    <!-- 暂停中 -->
+    <block wx:if="{{status === 'paused'}}">
+      <button class="btn btn-primary half-btn" bindtap="resumeTimer">继续</button>
+      <button class="btn btn-default half-btn" bindtap="resetFocus">放弃</button>
+    </block>
+
+    <!-- 休息中 -->
+    <button class="btn btn-default" wx:if="{{status === 'resting'}}" bindtap="skipRest">结束休息</button>
+  </view>
+</view>

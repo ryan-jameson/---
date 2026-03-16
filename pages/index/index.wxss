@@ -1,0 +1,15 @@
+/* pages/index/index.wxss */
+.header {
+  padding: 20rpx 10rpx;
+}
+.greeting .title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: var(--text-main);
+  margin-bottom: 8rpx;
+}
+.greeting .subtitle {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}

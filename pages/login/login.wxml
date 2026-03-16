@@ -1,0 +1,19 @@
+<!--pages/login/login.wxml-->
+<view class="container align-center justify-center login-page">
+  <block wx:if="{{!isLoading}}">
+    <!-- Logo区域 -->
+    <view class="logo-box flex-col align-center">
+      <image class="app-logo" src="../../assets/icons/timer.png" mode="aspectFit"></image>
+      <text class="app-name">聚力专注</text>
+      <text class="app-desc">每一个番茄钟，都是向目标迈进的一步</text>
+    </view>
+
+    <!-- 授权按钮区域 -->
+    <view class="btn-box w-100 mt-20">
+      <button class="login-btn" type="primary" bindtap="handleAuthLogin">
+        微信一键安全登录
+      </button>
+      <text class="tips">登录即代表您同意《用户协议》及《隐私政策》</text>
+    </view>
+  </block>
+</view>

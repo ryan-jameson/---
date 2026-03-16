@@ -1,0 +1,114 @@
+<!--pages/record/record.wxml-->
+<view class="container pb-40">
+  
+  <!-- 自定义 Tab 切换 -->
+  <view class="top-tabs flex-row align-center">
+    <view class="tab-item {{currentTab === 'daily' ? 'active' : ''}}" bindtap="switchTab" data-tab="daily">
+      <text>每日记录</text>
+    </view>
+    <view class="tab-item {{currentTab === 'stats' ? 'active' : ''}}" bindtap="switchTab" data-tab="stats">
+      <text>总结看板</text>
+    </view>
+  </view>
+
+  <!-- ================= 每日记录 ================= -->
+  <view class="tab-content" wx:if="{{currentTab === 'daily'}}">
+    
+    <!-- 日期选择器 -->
+    <view class="date-picker-box card flex-row justify-between align-center mb-20">
+      <text class="date-label">当前查看日期</text>
+      <picker mode="date" value="{{currentDate}}" bindchange="onDateChange">
+        <view class="date-value flex-row align-center">
+          <text>{{currentDate}}</text>
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 聚合主板 -->
+    <view class="daily-dash card flex-row mb-20">
+      <view class="dash-item flex-col align-center">
+        <text class="dash-num primary">{{totalPomoTime}}</text>
+        <text class="dash-desc">专注总长(分钟)</text>
+      </view>
+      <view class="dash-divider"></view>
+      <view class="dash-item flex-col align-center">
+        <text class="dash-num text-main">{{pomoCount}}</text>
+        <text class="dash-desc">完成番茄(个)</text>
+      </view>
+    </view>
+
+    <!-- 心得填写区 -->
+    <view class="summary-box card mb-20 flex-col">
+      <text class="section-title">学习心得 / 随笔总结</text>
+      <textarea 
+        class="summary-input" 
+        placeholder="写下今天的收获，见证每一天的积累..." 
+        value="{{dailySummary}}" 
+        bindinput="onSummaryInput"
+        maxlength="200"
+      ></textarea>
+      <view class="flex-row justify-between align-center mt-20">
+        <text class="word-count">{{dailySummary.length || 0}}/200</text>
+        <button class="btn-save" type="primary" bindtap="saveDailySummary">保 存</button>
+      </view>
+    </view>
+
+    <!-- 当日番茄列表 (如果是空的就不展示) -->
+    <view class="history-list card" wx:if="{{pomodoroList.length > 0}}">
+      <text class="section-title mb-20" style="display:block">专注足迹</text>
+      <block wx:for="{{pomodoroList}}" wx:key="_id">
+        <view class="history-item flex-row align-center justify-between">
+          <view class="flex-row align-center">
+            <view class="dot"></view>
+            <text class="h-time">{{item.displayTime}}</text>
+            <text class="h-content">{{item.content || '未填写专属内容'}}</text>
+          </view>
+          <text class="h-focus">+{{item.focusTime}}m</text>
+        </view>
+      </block>
+    </view>
+
+  </view>
+
+
+  <!-- ================= 统计总结 ================= -->
+  <view class="tab-content" wx:if="{{currentTab === 'stats'}}">
+    
+    <!-- 视角切换器 -->
+    <view class="segment-control flex-row mb-20">
+      <view class="seg-item {{statRange === 'week' ? 'active' : ''}}" bindtap="switchStatRange" data-range="week">本周数据</view>
+      <view class="seg-item {{statRange === 'month' ? 'active' : ''}}" bindtap="switchStatRange" data-range="month">本月数据</view>
+    </view>
+
+    <!-- 数据核心卡片 -->
+    <view class="board-card card mb-20 flex-col align-center">
+      <view class="circle-chart">
+        <text class="circle-val">{{statPomoTime}}</text>
+        <text class="circle-unit">Min</text>
+      </view>
+      <text class="board-title">{{statRange === 'week' ? '本周' : '本月'}}累计专注时间</text>
+    </view>
+
+    <view class="flex-row w-100 mb-20 justify-between">
+      <!-- 新增完成目标数 -->
+      <view class="half-card card flex-col align-center">
+        <image class="h-icon" src="../../assets/icons/goals-active.png"></image>
+        <text class="h-num">{{completedTargets}}</text>
+        <text class="h-title">{{statRange === 'week' ? '本周' : '本月'}}搞定目标</text>
+      </view>
+      <!-- 总进度率 -->
+      <view class="half-card card flex-col align-center">
+        <image class="h-icon" src="../../assets/icons/group-active.png"></image>
+        <text class="h-num">{{targetCompleteRate}}%</text>
+        <text class="h-title">全局目标完成率</text>
+      </view>
+    </view>
+    
+    <view class="tips text-center mt-20">
+      <text style="color:#aaa; font-size:24rpx;">* 数据在多端同步记录，定期做好反思与回顾哦</text>
+    </view>
+
+  </view>
+
+</view>

@@ -1,0 +1,182 @@
+/* pages/targets/targets.wxss */
+.pb-120 { padding-bottom: 140rpx; }
+
+.header .title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+.header .subtitle {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+/* 列表项卡片 */
+.target-item {
+  margin-bottom: 24rpx;
+  border-left: 8rpx solid var(--primary-color);
+  transition: all 0.3s;
+}
+.target-item.is-done {
+  opacity: 0.6;
+  border-left-color: #4CAF50;
+}
+.target-item.is-done .target-title {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.left-box {
+  flex: 1;
+}
+
+/* 勾选框 */
+.checkbox {
+  width: 48rpx;
+  height: 48rpx;
+  border: 4rpx solid var(--border-color);
+  border-radius: 50%;
+  margin-right: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox.checked {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+.check-icon {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+/* 文字信息 */
+.info {
+  flex: 1;
+}
+.target-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+.target-deadline {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+/* 类型标签 */
+.tag {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  border: 1px solid transparent;
+}
+.tag-ultimate {
+  color: #E91E63;
+  background-color: rgba(233, 30, 99, 0.1);
+  border-color: rgba(233, 30, 99, 0.3);
+}
+.tag-stage {
+  color: #03A9F4;
+  background-color: rgba(3, 169, 244, 0.1);
+  border-color: rgba(3, 169, 244, 0.3);
+}
+
+/* 操作区域 */
+.item-actions {
+  border-top: 1px dashed var(--border-color);
+  padding-top: 16rpx;
+}
+.status-text {
+  font-size: 24rpx;
+  font-weight: 500;
+}
+.text-green { color: #4CAF50; }
+.text-orange { color: #FF9800; }
+
+.action-btns .btn-mini {
+  display: inline-block;
+  font-size: 24rpx;
+  padding: 0 20rpx;
+  line-height: 48rpx;
+  border-radius: 24rpx;
+  margin-left: 20rpx;
+}
+.btn-edit { background-color: var(--background-color); color: var(--text-main); }
+.btn-del { background-color: rgba(244, 67, 54, 0.1); color: #F44336; }
+
+/* 底部悬浮按钮 */
+.bottom-action {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 40rpx calc(20rpx + env(safe-area-inset-bottom));
+  background: var(--card-bg);
+  box-shadow: 0 -4rpx 12rpx rgba(0,0,0,0.05);
+  z-index: 10;
+}
+.btn-add {
+  border-radius: 100rpx;
+  background-color: var(--primary-color) !important;
+}
+
+/* 弹窗样式 */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+.modal-content {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  z-index: 101;
+  border-radius: 24rpx;
+}
+.modal-header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+.modal-title {
+  font-size: 34rpx;
+  font-weight: bold;
+}
+.form-group {
+  margin-bottom: 24rpx;
+}
+.form-group .label {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  margin-bottom: 12rpx;
+}
+.form-input {
+  background-color: var(--background-color);
+  padding: 16rpx 20rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+}
+.radio-group label { margin-right: 30rpx; font-size: 28rpx; }
+
+.modal-footer {
+  margin-top: 40rpx;
+  gap: 20rpx;
+}
+.btn-modal {
+  flex: 1;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+}
+.btn-cancel { background-color: var(--background-color); }
+.btn-confirm { background-color: var(--primary-color) !important; }
+
+/* 空状态 */
+.empty-state {
+  margin-top: 100rpx;
+  opacity: 0.6;
+}
+.empty-text {
+  font-size: 28rpx;
+}

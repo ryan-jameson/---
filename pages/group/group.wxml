@@ -1,0 +1,69 @@
+<!--pages/group/group.wxml-->
+<view class="container pb-120">
+  <view class="header mb-20">
+    <text class="title">学习小组</text>
+    <text class="subtitle">互相监督，共同聚力前往目标</text>
+  </view>
+
+  <view wx:if="{{!loading}}">
+    <!-- 我的小组列表 -->
+    <view class="groups-list" wx:if="{{groups.length > 0}}">
+      <block wx:for="{{groups}}" wx:key="_id">
+        <view class="group-card card flex-col" bindtap="navToDetail" data-id="{{item._id}}">
+          <view class="flex-row justify-between align-center mb-20">
+            <text class="group-name">{{item.name}}</text>
+            <text class="member-count">{{item.memberCount}} 人</text>
+          </view>
+          <text class="group-desc">{{item.description || '这群人很懒，什么都没写~'}}</text>
+          <view class="group-footer flex-row mt-20 justify-between align-center">
+            <text class="group-id">小组码：{{item._id}}</text>
+            <text class="text-hint">点击进入 ➔</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 为空时展示 -->
+    <view class="empty-state flex-col align-center justify-center" wx:else>
+      <text class="empty-text mb-20">你还没加入任何学习小组</text>
+    </view>
+  </view>
+
+  <!-- 底部固定操作区 -->
+  <view class="bottom-action flex-row justify-between">
+    <button class="btn-half btn-join" bindtap="openJoinModal">加入小组</button>
+    <button class="btn-half btn-create" type="primary" bindtap="openCreateModal">创建小组</button>
+  </view>
+
+  <!-- 弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="closeModal"></view>
+  <view class="modal-content card" wx:if="{{showModal}}">
+    <view class="modal-header">
+      <text class="modal-title">{{modalType === 'join' ? '加入学习小组' : '创建学习小组'}}</text>
+    </view>
+    
+    <view class="modal-body">
+      <block wx:if="{{modalType === 'join'}}">
+        <view class="form-group flex-col">
+          <text class="label">小组邀请码</text>
+          <input class="form-input" placeholder="请输入6位邀请码" value="{{joinCode}}" bindinput="onCodeInput"/>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="form-group flex-col">
+          <text class="label">小组名称</text>
+          <input class="form-input" placeholder="如：考研上岸冲刺营" value="{{createName}}" bindinput="onNameInput"/>
+        </view>
+        <view class="form-group flex-col">
+          <text class="label">小组宣言/简介 (可选)</text>
+          <input class="form-input" placeholder="一句话描述你的小组" value="{{createDesc}}" bindinput="onDescInput"/>
+        </view>
+      </block>
+    </view>
+
+    <view class="modal-footer flex-row">
+      <button class="btn-modal btn-cancel" bindtap="closeModal">取消</button>
+      <button class="btn-modal btn-confirm" type="primary" bindtap="submitModal">确认</button>
+    </view>
+  </view>
+</view>

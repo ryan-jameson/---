@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "pomodoro-clock": "../../components/pomodoro/pomodoro"
+  },
+  "navigationBarTitleText": "聚力专注"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "group-service",
+  "version": "1.0.0",
+  "description": "小组相关云存储与聚合查询",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

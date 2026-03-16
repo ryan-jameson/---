@@ -1,0 +1,130 @@
+/* components/pomodoro/pomodoro.wxss */
+.pomodoro-box {
+  padding: 40rpx;
+  background-color: var(--card-bg);
+  border-radius: 20rpx;
+}
+
+.flex-col { display: flex; flex-direction: column; }
+.flex-row { display: flex; flex-direction: row; }
+.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.w-100 { width: 100%; }
+.mt-20 { margin-top: 30rpx; }
+
+/* 倒计时刻度盘 */
+.clock-circle {
+  width: 450rpx;
+  height: 450rpx;
+  border-radius: 50%;
+  border: 10rpx solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40rpx;
+  transition: all 0.3s ease;
+}
+
+.clock-circle.focusing {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 30rpx rgba(255, 87, 34, 0.2);
+}
+
+.clock-circle.resting {
+  border-color: #4CAF50;
+  box-shadow: 0 0 30rpx rgba(76, 175, 80, 0.2);
+}
+
+.clock-circle.paused {
+  border-color: #FFC107;
+}
+
+.time-text {
+  font-size: 100rpx;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--text-main);
+}
+
+.status-badge {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-top: 10rpx;
+  padding: 4rpx 20rpx;
+  background-color: var(--background-color);
+  border-radius: 20rpx;
+}
+
+/* 目标与输入区 */
+.context-box {
+  background-color: var(--background-color);
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.picker-item {
+  padding: 10rpx 0;
+  border-bottom: 2rpx solid var(--border-color);
+}
+
+.label {
+  font-size: 28rpx;
+  color: var(--text-main);
+  width: 140rpx;
+}
+
+.value {
+  font-size: 28rpx;
+  color: var(--primary-color);
+  flex: 1;
+  text-align: right;
+}
+
+.value.empty {
+  color: var(--text-secondary);
+}
+
+.input-item {
+  padding: 10rpx 0;
+}
+
+.content-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-main);
+  text-align: right;
+}
+
+/* 按钮区 */
+.controls {
+  gap: 20rpx;
+}
+
+.btn {
+  width: 80% !important;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  letter-spacing: 2rpx;
+}
+
+.half-btn {
+  width: 45% !important;
+}
+
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  color: #fff;
+}
+
+.btn-warn {
+  background-color: #FFC107 !important;
+  color: #fff;
+}
+
+.btn-default {
+  background-color: var(--border-color) !important;
+  color: var(--text-main);
+}

@@ -1,0 +1,94 @@
+<!--pages/targets/targets.wxml-->
+<view class="container pb-120">
+  <view class="header mb-20">
+    <text class="title">我的学习目标</text>
+    <text class="subtitle">拆分目标，分步达成，做时间的做人</text>
+  </view>
+
+  <!-- 目标列表渲染区 -->
+  <view class="target-list" wx:if="{{targets.length > 0}}">
+    <block wx:for="{{targets}}" wx:key="_id">
+      <view class="target-item card flex-col {{item.status === 1 ? 'is-done' : ''}}">
+        
+        <!-- 核心内容行 -->
+        <view class="item-main flex-row justify-between align-center">
+          <view class="left-box flex-row align-center">
+            <!-- 状态勾选 -->
+            <view class="checkbox {{item.status === 1 ? 'checked' : ''}}" bindtap="toggleStatus" data-index="{{index}}">
+              <image wx:if="{{item.status === 1}}" class="check-icon" src="../../assets/icons/check.png"></image>
+            </view>
+            <view class="info flex-col">
+              <text class="target-title">{{item.title}}</text>
+              <text class="target-deadline" wx:if="{{item.deadline}}">截止：{{item.deadline}}</text>
+            </view>
+          </view>
+          <!-- 标签展示 -->
+          <view class="tag {{item.type === 'ultimate' ? 'tag-ultimate' : 'tag-stage'}}">
+            {{item.type === 'ultimate' ? '终极' : '阶段'}}
+          </view>
+        </view>
+
+        <!-- 操作区行 -->
+        <view class="item-actions flex-row justify-between align-center mt-20">
+          <text class="status-text {{item.status === 1 ? 'text-green' : 'text-orange'}}">
+            {{item.status === 1 ? '已完成' : '进行中'}}
+          </text>
+          <view class="action-btns flex-row">
+            <button class="btn-mini btn-edit" bindtap="openEditModal" data-target="{{item}}">编辑</button>
+            <button class="btn-mini btn-del" bindtap="deleteTarget" data-id="{{item._id}}">删除</button>
+          </view>
+        </view>
+
+      </view>
+    </block>
+  </view>
+
+  <!-- 空状态区 -->
+  <view class="empty-state flex-col align-center justify-center" wx:else>
+    <text class="empty-text">当前暂无目标，赶快创建一个吧！</text>
+  </view>
+
+  <!-- 底部固定新增按钮 -->
+  <view class="bottom-action">
+    <button class="btn-add" type="primary" bindtap="openAddModal">+ 新增目标</button>
+  </view>
+
+  <!-- 新增/编辑弹窗 (使用简易的 View 实现居中 Modal) -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="closeModal"></view>
+  <view class="modal-content card" wx:if="{{showModal}}">
+    <view class="modal-header">
+      <text class="modal-title">{{modalType === 'add' ? '新增目标' : '编辑目标'}}</text>
+      <!-- <view class="icon-close" bindtap="closeModal">×</view> -->
+    </view>
+    
+    <view class="modal-body">
+      <view class="form-group flex-col">
+        <text class="label">目标名称</text>
+        <input class="form-input" placeholder="输入你想达成的目标" value="{{formData.title}}" bindinput="onTitleInput"/>
+      </view>
+      
+      <view class="form-group flex-col">
+        <text class="label">目标类型</text>
+        <radio-group class="flex-row radio-group" bindchange="onTypeChange">
+          <label class="radio-label" wx:for="{{typeOptions}}" wx:key="value">
+            <radio value="{{item.value}}" checked="{{item.checked}}" color="#FF5722"/> {{item.name}}
+          </label>
+        </radio-group>
+      </view>
+
+      <view class="form-group flex-col">
+        <text class="label">期望截止日期 (可选)</text>
+        <picker mode="date" value="{{formData.deadline}}" bindchange="onDateChange">
+          <view class="date-picker form-input">
+            {{formData.deadline ? formData.deadline : '选择日期'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="modal-footer flex-row">
+      <button class="btn-modal btn-cancel" bindtap="closeModal">取消</button>
+      <button class="btn-modal btn-confirm" type="primary" bindtap="saveTarget">保存</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,98 @@
+<!--pages/groupDetail/groupDetail.wxml-->
+<view class="container pb-120">
+  <view wx:if="{{!loading}}">
+    
+    <!-- 头部信息卡片 -->
+    <view class="hero-card card flex-col">
+      <view class="flex-row justify-between align-center">
+        <text class="g-name">{{groupInfo.name}}</text>
+        <button class="btn-quit" bindtap="quitGroup">退出小组</button>
+      </view>
+      <text class="g-desc mt-20">{{groupInfo.description || '大家一起加油努力！'}}</text>
+      <view class="g-code-box flex-row align-center justify-between mt-20" bindtap="copyGroupId">
+        <text class="g-code-label">邀请码：<text class="g-code">{{groupInfo._id}}</text></text>
+        <text class="copy-hint">点击复制</text>
+      </view>
+    </view>
+
+    <!-- 成员统计区: 新增排行榜切换功能 -->
+    <view class="list-header flex-row justify-between align-center mt-20 mb-20">
+      <view class="rank-tabs flex-row align-center">
+        <view class="tag {{sortType === 'today' ? 'active' : ''}}" bindtap="switchSort" data-type="today">今日排行</view>
+        <view class="tag {{sortType === 'week' ? 'active' : ''}}" bindtap="switchSort" data-type="week">本周排行</view>
+      </view>
+      <text class="subtitle">共 {{members.length}} 人</text>
+    </view>
+
+    <!-- 成员列表 (监督面板升级) -->
+    <view class="members-list">
+      <block wx:for="{{members}}" wx:key="_openid">
+        <view class="member-item card flex-col">
+          
+          <view class="flex-row align-center justify-between mb-20">
+            <view class="flex-row align-center">
+              <view class="rank-num {{index < 3 ? 'top-' + (index+1) : ''}}">{{index + 1}}</view>
+              <image class="avatar" src="{{item.avatarUrl || '../../assets/icons/profile.png'}}" mode="aspectFill"></image>
+              <view class="flex-col">
+                <view class="flex-row align-center">
+                  <text class="m-name">{{item.nickName}}</text>
+                  <text class="role-tag owner" wx:if="{{item.role === 'owner'}}">组长</text>
+                </view>
+                <text class="m-stats">已达成目标：{{item.completedTargetsCount}}个</text>
+              </view>
+            </view>
+            <!-- 对应排名的时长呈现 -->
+            <view class="focus-time flex-col align-center">
+              <text class="time-val {{(sortType === 'today' ? item.todayFocusTime : item.weekFocusTime) > 0 ? 'active' : ''}}">
+                {{sortType === 'today' ? item.todayFocusTime : item.weekFocusTime}}
+              </text>
+              <text class="time-unit">分钟</text>
+            </view>
+          </view>
+
+          <!-- 监督互动条: 呈现详细数据与点赞/鼓励 -->
+          <view class="interact-bar flex-row justify-between align-center">
+            <view class="stat-pill">今日:{{item.todayFocusTime}}m / 本周:{{item.weekFocusTime}}m</view>
+            <view class="action-btns flex-row align-center">
+              <view class="action-item flex-row align-center" bindtap="onLike" data-index="{{index}}">
+                <text class="icon">👍</text>
+                <text class="a-text">{{item.likes}}</text>
+              </view>
+              <view class="action-item flex-row align-center ml-20" bindtap="openMessageModal" data-name="{{item.nickName}}">
+                <text class="icon">💬</text>
+                <text class="a-text">鼓励</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+    
+    <!-- 鼓励墙展示 -->
+    <view class="msg-wall mt-20" wx:if="{{messages.length > 0}}">
+      <text class="wall-title">小组鼓励墙 🔥</text>
+      <view class="msg-box card mt-20">
+        <block wx:for="{{messages}}" wx:key="_id">
+          <view class="msg-item flex-row">
+            <text class="msg-from">{{item.fromName}}</text>
+            <text class="msg-action">给 {{item.toName}} 留言:</text>
+            <text class="msg-text">{{item.content}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 鼓励弹窗组件 -->
+  <view class="modal-mask" wx:if="{{showMsgModal}}" bindtap="closeMsgModal"></view>
+  <view class="modal-content card" wx:if="{{showMsgModal}}">
+    <view class="modal-header">鼓励 {{targetMemberNick}}</view>
+    <view class="modal-body">
+      <input class="form-input" placeholder="输入你想给TA加油的话..." value="{{msgContent}}" bindinput="onMsgInput"/>
+    </view>
+    <view class="modal-footer flex-row mt-20">
+      <button class="btn-modal btn-cancel" bindtap="closeMsgModal">取消</button>
+      <button class="btn-modal btn-confirm" type="primary" bindtap="sendEncourageMsg">发送</button>
+    </view>
+  </view>
+</view>
