@@ -7,7 +7,7 @@ App({
     } else {
       wx.cloud.init({
         // TODO: 填入你的云开发环境 ID
-        // env: 'your-env-id',
+        env: 'cloud1-1gjizh969d314d70',
         traceUser: true, // 记录用户访问
       });
     }
