@@ -48,51 +48,46 @@ Page({
   },
 
   /**
-   * 2. 用户点击授权登录：由于 wx.getUserProfile 规范变动，此处仍保留接口以符合要求。
-   * (注意：2022年底后基础库会返回灰色头像和“微信用户”，若需真实信息请换用 chooseAvatar 和 nickname)
+   * 2. 用户点击登录：微信已废弃 wx.getUserProfile 接口。
+   * 此处修改为：直接创建默认用户记录，或提供给用户基础信息即可跳转。
    */
-  handleAuthLogin() {
-    wx.getUserProfile({
-      desc: '获取您的昵称和头像用于完善个人主页', 
-      success: async (profileRes) => {
-        wx.showLoading({ title: '注册中...', mask: true });
-        try {
-          const userInfo = profileRes.userInfo;
-          
-          // 步骤C: 将新用户信息保存到云数据库 users 集合
-          const addRes = await db.collection('users').add({
-            data: {
-              nickName: userInfo.nickName,
-              avatarUrl: userInfo.avatarUrl,
-              createdAt: db.serverDate(),
-              updatedAt: db.serverDate()
-            }
-          });
+  async handleAuthLogin() {
+    wx.showLoading({ title: '注册中...', mask: true });
+    try {
+      // 默认用户信息，由于微信限制不再直接弹窗获取真实头像昵称
+      const userInfo = {
+        nickName: '微信用户',
+        avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+      };
 
-          // 更新全局变量并跳转首页
-          app.globalData.userInfo = {
-            _id: addRes._id,
-            _openid: app.globalData.openid,
-            ...userInfo
-          };
-          
-          wx.hideLoading();
-          wx.showToast({ title: '登录成功' });
-          
-          setTimeout(() => {
-            wx.switchTab({ url: '/pages/index/index' });
-          }, 1000);
-
-        } catch (dbErr) {
-          wx.hideLoading();
-          console.error('[数据保存失败]:', dbErr);
-          wx.showToast({ title: '保存失败，请重试', icon: 'none' });
+      // 步骤C: 将新用户信息保存到云数据库 users 集合
+      const addRes = await db.collection('users').add({
+        data: {
+          nickName: userInfo.nickName,
+          avatarUrl: userInfo.avatarUrl,
+          createdAt: db.serverDate(),
+          updatedAt: db.serverDate()
         }
-      },
-      fail: (err) => {
-        console.warn('[用户拒绝授权]:', err);
-        wx.showToast({ title: '请授权以继续使用', icon: 'none' });
-      }
-    });
+      });
+
+      // 更新全局变量并跳转首页
+      app.globalData.userInfo = {
+        _id: addRes._id,
+        _openid: app.globalData.openid,
+        ...userInfo
+      };
+
+      wx.hideLoading();
+      wx.showToast({ title: '登录成功' });
+
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/index/index' });
+      }, 1000);
+
+    } catch (dbErr) {
+      wx.hideLoading();
+      console.error('[数据保存失败]:', dbErr);
+      wx.showToast({ title: '保存失败，请重试', icon: 'error' });
+    }
   }
 });
